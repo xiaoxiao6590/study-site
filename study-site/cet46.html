@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <title>四六级学习</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header>
+    <h1>四六级学习</h1>
+    <nav>
+      <a href="index.html">返回首页</a >
+    </nav>
+  </header>
+
+  <main>
+    <div class="checkin">
+      <h2>今日打卡</h2>
+<div style="display: flex; align-items: center; gap: 15px;">
+    <p id="counter" style="font-size: 2em; font-weight: bold; color: #4CAF50; margin: 0;">1</p >
+    <div style="flex-grow: 1; height: 20px; background-color: #e0e0e0; border-radius: 10px; overflow: hidden;">
+        <div id="progress-bar" style="width: 10%; height: 100%; background-color: #4CAF50; transition: width 0.3s;"></div>
+    </div>
+</div>
+<button onclick="addCheckIn()" style="margin-top: 10px; padding: 10px 20px; font-size: 1.2em; background-color: #4CAF50; color: white; border: none; border-radius: 5px; cursor: pointer;">打卡</button>
+<p id="message" style="color: #888; margin-top: 10px;"></p >
+      <h2>新学</h2>
+      <div style="display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 20px;">
+    <a href=" " style="padding: 10px 15px; background: #f0f0f0; border-radius: 5px; text-decoration: none; color: #333;">背单词</a >
+    <a href="#" style="padding: 10px 15px; background: #f0f0f0; border-radius: 5px; text-decoration: none; color: #333;">学语法</a >
+    <a href="#" style="padding: 10px 15px; background: #f0f0f0; border-radius: 5px; text-decoration: none; color: #333;">练听力</a >
+</div>
+            <h2>复习</h2>
+      <div style="display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 20px;">
+    <a href=" " style="padding: 10px 15px; background: #f0f0f0; border-radius: 5px; text-decoration: none; color: #333;">复习单词</a >
+    <a href="#" style="padding: 10px 15px; background: #f0f0f0; border-radius: 5px; text-decoration: none; color: #333;">错题回顾</a >
+</div>
+</body>
+<script>
+  // 初始化打卡次数
+  let count = 0;
+  // 获取页面上的元素
+  const counterDisplay = document.getElementById('counter');
+  const messageDisplay = document.getElementById('message');
+  const progressBar = document.getElementById('progress-bar');
+
+  // 页面加载时，检查之前的记录
+  window.onload = function() {
+    if(localStorage.getItem('cet46_count')) {
+      count = parseInt(localStorage.getItem('cet46_count'));
+      updateDisplay();
+    }
+  };
+
+  // 点击打卡时触发
+  function addCheckIn() {
+    count++;
+    updateDisplay();
+    messageDisplay.textContent = '太棒了！又坚持了一天！';
+    // 把次数保存
+    localStorage.setItem('cet46_count', count);
+    
+    setTimeout(() => {
+      messageDisplay.textContent = '';
+    }, 2000);
+  }
+
+  // 更新页面显示（包括进度条）
+  function updateDisplay() {
+    counterDisplay.textContent = count;
+    // 计算进度百分比，最多显示到 100%
+    let progress = (count / 30) * 100; 
+    if(progress > 100) progress = 100;
+    progressBar.style.width = progress + '%';
+  }
+</script>
+</html>

@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>我的学习网站</title>
+    <style>
+        body { 
+            font-family: 'Microsoft YaHei', sans-serif; 
+            max-width: 800px; 
+            margin: 30px auto; 
+            padding: 20px; 
+            background-color: #fdfdfd; 
+        }
+        h1 { 
+            color: #2c3e50; 
+            font-size: 28px; 
+            margin-bottom: 20px; 
+        }
+        /* 基础卡片样式 */
+        .card {
+            padding: 25px;
+            margin-bottom: 20px;
+            background: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        }
+        .card h2 { 
+            margin: 0 0 10px 0; 
+            font-size: 22px; 
+            color: #333; 
+        }
+        .card p { 
+            color: #666; 
+            margin: 0 0 15px 0; 
+        }
+        .card a {
+            color: #007bff;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .card a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>我的学习网站</h1>
+
+    <!-- 【新增】每日自动更新的单词卡片 -->
+    <div id="daily-vocab-card" style="padding: 20px; background-color: #f0f7ff; border-radius: 10px; margin-bottom: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); text-align: center;">
+        <p style="color: #888; font-size: 14px; margin-bottom: 10px;">正在为你抽取今日核心单词...</p >
+    </div>
+
+    <!-- 四六级学习 -->
+    <div class="card">
+        <h2>四六级学习</h2>
+        <p>单词、听力、阅读、真题</p >
+        <a href="cet46.html">进入四六级学习</a >
+    </div>
+
+    <!-- 专升本学习 -->
+    <div class="card">
+        <h2>专升本学习</h2>
+        <p>高数、英语、政治、管理学</p >
+        <a href="zhuan.html">进入专升本学习</a >
+    </div>
+
+    <script>
+        // 自动读取 data.json 的内容并渲染到页面上
+        fetch('./data.json?t=' + Date.now())
+            .then(response => response.json())
+            .then(data => {
+                const container = document.getElementById('daily-vocab-card');
+                container.innerHTML = `
+                    <p style="margin: 0 0 5px 0; color: #666; font-size: 14px;">📅 ${data.date} 每日打卡</p >
+                    <h2 style="margin: 5px 0 10px 0; color: #2c3e50; font-size: 26px;">【${data.difficulty}】${data.word}</h2>
+                    <p style="margin: 0; color: #333; font-size: 18px;">${data.meaning}</p >
+                `;
+            })
+            .catch(error => {
+                console.error('加载每日内容失败:', error);
+                document.getElementById('daily-vocab-card').innerHTML = '<p>今日单词正在加载，请稍后刷新...</p >';
+            });
+    </script>
+
+</body>
+</html>
